@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
-
+import CoffeeCard from './components/CoffeCard';
 
 export default function App() {
   const [nameUser, setName] = useState('');
@@ -41,9 +41,16 @@ export default function App() {
           <Text style={styles.sectionTitle}>Nosso Cardápio</Text>
 
           <View style={styles.sectionMenu}>
+            <View style={styles.sectionMenu}>
+            <Image source={require('./assets/product-image (1).png')} style={styles}></Image>
+            <Text style={styles.cardTitle}>Açaí Turbinado 500ml</Text>
+            <Text style={styles.featuredDescription}>Açaí puro batido com morango, banana, leite condensado e granola crocante</Text>
+            <Text style={styles.cardPrice}>R$ 22,90</Text>
+          </View>
           </View>
 
           <View style={styles.orderSection}>
+            
             <Text style={styles.question}>Qual é o seu nome?</Text>
             <TextInput 
               style={styles.input}
@@ -108,6 +115,12 @@ const styles = StyleSheet.create({
     fontWeight: '800'
   },
   sectionMenu: {
+    backgroundColor: "#ffffff",
+    padding: 16,
+    borderRadius: 16,
+    shadowColor: "#a289acff",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.05,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
@@ -175,5 +188,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 'auto',
     marginTop: 20
+  },
+  cardItem: {
+    width: '48%',
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    elevation: 3
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#2f2d2c'
+  },
+  cardDescription: {
+    fontSize: 12,
+    color: '#9b9b9b',
+    marginTop: 4,
+    lineHeight: 16
+  },
+  cardPrice: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#c77c4e',
+    marginTop: 12
   }
 });
