@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import Feather from '@expo/vector-icons/Feather';
+import React, { useState } from 'react';
+import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import CoffeeCard from './components/CoffeCard';
 
 export default function App() {
@@ -15,13 +17,13 @@ export default function App() {
   }
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       style={styles.container}
       behavior='padding'
       keyboardVerticalOffset={30}
-      >
+    >
       <ScrollView>
-       
+
         <View style={styles.content}>
           <View style={styles.grettingSection}>
             <Text style={styles.grettingTitle}>Açaí Prime</Text>
@@ -35,29 +37,32 @@ export default function App() {
             <Image source={require('./assets/featured-image.png')} style={styles.image}></Image>
             <Text style={styles.featuredTitle}>Açaí Turbinado 500ml</Text>
             <Text style={styles.featuredDescription}>Açaí puro batido com morango, banana, leite condensado e granola crocante</Text>
-            <Text style={styles.featuredPrice}>R$ 22,90</Text>
+            <View style={styles.cardButton}>
+              <Text style={styles.featuredPrice}>R$ 22,90</Text>
+              <TouchableOpacity style={styles.button}>
+                <Feather name="shopping-bag" size={14} color="white"/><Text style={styles.buttonText}>Adicionar</Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
-          <Text style={styles.sectionTitle}>Nosso Cardápio</Text>
+          <Text style={styles.sectionTitle}>Nossos Copos & Tigelas</Text>
 
           <View style={styles.sectionMenu}>
-            <View style={styles.sectionMenu}>
-            <Image source={require('./assets/product-image (1).png')} style={styles}></Image>
-            <Text style={styles.cardTitle}>Açaí Turbinado 500ml</Text>
-            <Text style={styles.featuredDescription}>Açaí puro batido com morango, banana, leite condensado e granola crocante</Text>
-            <Text style={styles.cardPrice}>R$ 22,90</Text>
-          </View>
+            <CoffeeCard name='Açaí Tradicional' description='Açaí cremoso com banana e granola tradicional' price='14,00' />
+            <CoffeeCard name='Copo Tropical' description='Camadas de açaí, morango, kiwi e leite em pó' price='18,50' />
+            <CoffeeCard name='Vitamina de Açaí' description='Bebida energética batida com guaraná e aveia' price='12,00' />
+            <CoffeeCard name='Açaí Fit Zero' description='Zero adição de açúcar, com chia e castanhas' price='16,90' />
           </View>
 
           <View style={styles.orderSection}>
-            
+
             <Text style={styles.question}>Qual é o seu nome?</Text>
-            <TextInput 
+            <TextInput
               style={styles.input}
               placeholder='Digite seu nome...'
               value={nameUser}
               onChangeText={setName}
-              >
+            >
             </TextInput>
 
             {message !== '' && <Text style={styles.messageText}>{message}</Text>}
@@ -73,9 +78,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9f9f9'
+    backgroundColor: '#FBF9FC'
   },
-  
+
   content: {
     paddingHorizontal: 24,
   },
@@ -109,23 +114,40 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginBottom: 16,
   },
-  featuredTitle: {
-    fontSize: 20,
-    color: '#2f2d2c',
-    fontWeight: '800'
-  },
-  sectionMenu: {
-    backgroundColor: "#ffffff",
-    padding: 16,
+
+  imagecard: {
+    width: "100%",
+    height: 144,
     borderRadius: 16,
-    shadowColor: "#a289acff",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.05,
+    marginBottom: 16,
+  },
+
+  featuredTitle: {
+    fontSize: 18,
+    color: '#2C1B30',
+    fontWeight: '800',
+  },
+
+  // sectionMenu: {
+  //   backgroundColor: "#ff0000ff",
+  //   width: 168,
+  //   borderRadius: 16,
+  //   shadowColor: "#a289acff",
+  //   shadowOffset: { width: 0, height: 8 },
+  //   shadowOpacity: 0.05,
+  //   flexDirection: 'row',
+  //   flexWrap: 'wrap',
+  //   justifyContent: 'space-between',
+  //   marginBottom: 20
+  // },
+
+  sectionMenu: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginBottom: 20
   },
+
   featuredDescription: {
     fontSize: 14,
     color: '#9b9b9b',
@@ -168,12 +190,14 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   button: {
-    backgroundColor: '#c67c4e',
-    width: '100%',
+    backgroundColor: '#7b1fa2',
+    width: 109,
     borderRadius: 30,
-    paddingHorizontal: 30,
-    paddingVertical: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     alignItems: 'center',
+    flexDirection: "row",
+    justifyContent:'space-between',
     marginTop: 20,
   },
   buttonText: {
@@ -216,5 +240,21 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#c77c4e',
     marginTop: 12
+  },
+
+  cardButton: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+
+  },
+  Button:{
+    backgroundColor: "#7b1fa2",
+    borderRadius: 20,
+    width: 109,
+    height: 31,
+    alignItems: "center",
+    justifyContent: "center"
+
   }
 });
