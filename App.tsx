@@ -1,8 +1,12 @@
-import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { Inter_400Regular, Inter_500Medium, Inter_700Bold } from '@expo-google-fonts/inter';
+import { Outfit_400Regular, Outfit_500Medium, Outfit_600SemiBold, Outfit_700Bold, Outfit_800ExtraBold, useFonts } from '@expo-google-fonts/outfit'
+import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 import Feather from '@expo/vector-icons/Feather';
 import React, { useState } from 'react';
 import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import CoffeeCard from './components/CoffeCard';
+import ButtonPedido from './components/ButtonPedido';
+import Footer from './components/Footer';
 
 export default function App() {
   const [nameUser, setName] = useState('');
@@ -10,10 +14,23 @@ export default function App() {
 
   const handleOrder = () => {
     if (nameUser.trim() == '') {
-      setMessage('Por favor, informe seu nome!');
+      setMessage('  Por favor, informe seu nome!');
     } else {
-      setMessage(`Olá ${nameUser}, seu pedido foi recebido!`);
+      setMessage(`  Olá, ${nameUser}! Pedido iniciado com sucesso.`);
     }
+  }
+  const [fontsLoaded] = useFonts({
+    Outfit_400Regular,
+    Outfit_600SemiBold,
+    Outfit_700Bold,
+    Outfit_800ExtraBold,
+    Outfit_500Medium,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_700Bold,
+  });
+  if (!fontsLoaded) {
+    return null;
   }
 
   return (
@@ -24,23 +41,33 @@ export default function App() {
     >
       <ScrollView>
 
-        <View style={styles.content}>
+         <View style={styles.content}>
           <View style={styles.grettingSection}>
-            <Text style={styles.grettingTitle}>Açaí Prime</Text>
-            <Text style={styles.grettingSubTitle}>O sabor puro da Amazônia</Text>
-
+            <View>
+              <Text style={styles.grettingTitle}>Açaí Prime</Text>
+              <Text style={styles.grettingSubTitle}>O sabor puro da Amazônia</Text>
+            </View>
+            <View style={styles.avatarPlaceholder}>
+              <Ionicons name="person" size={20} color="#000000ff"></Ionicons>
+            </View>
+            </View>
+            <View>
             <Text style={styles.grettingTitle}>Refresque seu dia!</Text>
             <Text style={styles.grettingSubTitle}>Escolha seu açaí favorito de hoje</Text>
-          </View>
+            </View>
+           
 
           <View style={styles.featured}>
             <Image source={require('./assets/featured-image.png')} style={styles.image}></Image>
-            <Text style={styles.featuredTitle}>Açaí Turbinado 500ml</Text>
+            <View style={styles.dois}>
+              <Text style={styles.featuredTitle}>Açaí Turbinado 500ml</Text>
+              <Text style={styles.secundTitle}>MAIS PEDIDO</Text>
+            </View>
             <Text style={styles.featuredDescription}>Açaí puro batido com morango, banana, leite condensado e granola crocante</Text>
             <View style={styles.cardButton}>
               <Text style={styles.featuredPrice}>R$ 22,90</Text>
               <TouchableOpacity style={styles.button}>
-                <Feather name="shopping-bag" size={14} color="white"/><Text style={styles.buttonText}>Adicionar</Text>
+                <Feather name="shopping-bag" size={14} color="white" /><Text style={styles.buttonText}>Adicionar</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -48,10 +75,10 @@ export default function App() {
           <Text style={styles.sectionTitle}>Nossos Copos & Tigelas</Text>
 
           <View style={styles.sectionMenu}>
-            <CoffeeCard name='Açaí Tradicional' description='Açaí cremoso com banana e granola tradicional' price='14,00' />
-            <CoffeeCard name='Copo Tropical' description='Camadas de açaí, morango, kiwi e leite em pó' price='18,50' />
-            <CoffeeCard name='Vitamina de Açaí' description='Bebida energética batida com guaraná e aveia' price='12,00' />
-            <CoffeeCard name='Açaí Fit Zero' description='Zero adição de açúcar, com chia e castanhas' price='16,90' />
+            <CoffeeCard image={require('./assets/product-image (1).png')} name='Açaí Tradicional' description='Açaí cremoso com banana e granola tradicional' price='14,00' />
+            <CoffeeCard image={require('./assets/product-image.png')} name='Copo Tropical' description='Camadas de açaí, morango, kiwi e leite em pó' price='18,50' />
+            <CoffeeCard image={require('./assets/product-image (2).png')} name='Vitamina de Açaí' description='Bebida energética batida com guaraná e aveia' price='12,00' />
+            <CoffeeCard image={require('./assets/product-image (3).png')} name='Açaí Fit Zero' description='Zero adição de açúcar, com chia e castanhas' price='16,90' />
           </View>
 
           <View style={styles.orderSection}>
@@ -59,47 +86,72 @@ export default function App() {
             <Text style={styles.question}>Qual é o seu nome?</Text>
             <TextInput
               style={styles.input}
-              placeholder='Digite seu nome...'
+              placeholder='Digite seu nome'
               value={nameUser}
               onChangeText={setName}
             >
             </TextInput>
 
-            {message !== '' && <Text style={styles.messageText}>{message}</Text>}
+            <ButtonPedido title='Fazer seu pedido' onPress={handleOrder}></ButtonPedido>
+            {message !== '' && <Text style={styles.messageText}><FontAwesome name="check-circle" size={20} color="green" style={styles.messageIcon} />{message}</Text>}
           </View>
 
         </View>
+        <Footer>
+        </Footer>
 
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FBF9FC'
+
+  },
+  avatarPlaceholder: {
+    width: 44,
+    height: 44,
+    backgroundColor: "#f3e5f5",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    borderRadius: "50%",
+    borderColor: "#7B1FA2",
+    borderWidth: 1,
   },
 
   content: {
     paddingHorizontal: 24,
+    paddingTop: 50,
   },
   grettingSection: {
     marginTop: 10,
-    marginBottom: 24
+    marginBottom: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   grettingTitle: {
     fontSize: 32,
     fontWeight: '800',
-    color: '#2f2d2c'
+    gap: 10,
+    color: '#2f2d2cff',
+    fontFamily: "Inter_700Bold"
+
   },
   grettingSubTitle: {
+    marginBottom: 24,
     fontSize: 16,
-    color: "#9b9b9b",
-    marginTop: 8
+    color: "#644d6a",
+    fontFamily: "Inter_400Regular",
+
   },
   featured: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#ffffffff",
     borderRadius: 16,
     padding: 16,
     marginBottom: 32,
@@ -108,6 +160,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     elevation: 4,
   },
+  dois: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
   image: {
     width: '100%',
     height: 178,
@@ -123,23 +181,10 @@ const styles = StyleSheet.create({
   },
 
   featuredTitle: {
-    fontSize: 18,
+    fontSize: 20,
     color: '#2C1B30',
-    fontWeight: '800',
+    fontFamily: "Inter_700Bold"
   },
-
-  // sectionMenu: {
-  //   backgroundColor: "#ff0000ff",
-  //   width: 168,
-  //   borderRadius: 16,
-  //   shadowColor: "#a289acff",
-  //   shadowOffset: { width: 0, height: 8 },
-  //   shadowOpacity: 0.05,
-  //   flexDirection: 'row',
-  //   flexWrap: 'wrap',
-  //   justifyContent: 'space-between',
-  //   marginBottom: 20
-  // },
 
   sectionMenu: {
     flexDirection: 'row',
@@ -150,7 +195,7 @@ const styles = StyleSheet.create({
 
   featuredDescription: {
     fontSize: 14,
-    color: '#9b9b9b',
+    color: '#644d6a',
     marginTop: 4
   },
   featuredPrice: {
@@ -184,20 +229,20 @@ const styles = StyleSheet.create({
   input: {
     width: '100%',
     height: 56,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#f1edf4',
     borderRadius: 16,
     paddingHorizontal: 20,
     fontSize: 16
   },
   button: {
     backgroundColor: '#7b1fa2',
-    width: 109,
+    width: 129,
     borderRadius: 30,
     paddingHorizontal: 16,
     paddingVertical: 8,
     alignItems: 'center',
     flexDirection: "row",
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     marginTop: 20,
   },
   buttonText: {
@@ -206,12 +251,16 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   messageText: {
-    fontSize: 16,
-    fontWeight: '800',
-    color: '#c67c4e',
-    alignItems: 'center',
-    margin: 'auto',
-    marginTop: 20
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#2e7d32',
+    backgroundColor: '#e8f5e9',
+    marginTop: 20,
+    width: '100%',
+    height: 40,
+    borderRadius: 12,
+    paddingHorizontal:15,
+    paddingVertical:7,
   },
   cardItem: {
     width: '48%',
@@ -224,23 +273,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     elevation: 3
   },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#2f2d2c'
-  },
-  cardDescription: {
-    fontSize: 12,
-    color: '#9b9b9b',
-    marginTop: 4,
-    lineHeight: 16
-  },
-  cardPrice: {
-    fontSize: 16,
-    fontWeight: '800',
-    color: '#c77c4e',
-    marginTop: 12
-  },
 
   cardButton: {
     flexDirection: "row",
@@ -248,7 +280,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
 
   },
-  Button:{
+  Button: {
     backgroundColor: "#7b1fa2",
     borderRadius: 20,
     width: 109,
@@ -256,5 +288,35 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
 
+  },
+  questionName: {
+    fontSize: 18,
+    fontWeight: "800",
+    color: "#2f2d2c"
+  },
+  subquestionName: {
+    fontSize: 12,
+    fontFamily: "Inter",
+    fontWeight: "400",
+    color: "#6C757D",
+    marginBottom: 16
+  },
+  messageIcon: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    margin: 10
+  },
+
+  secundTitle: {
+    backgroundColor: '#f3e5f5',
+    color: '#7b1fa2',
+    fontFamily: 'Inter_700Bold',
+    fontSize: 12,
+    borderRadius: 6,
+    textAlign: 'center',
+    padding: 3,
+    height: 24,
+    width: 100,
   }
 });
